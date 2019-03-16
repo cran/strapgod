@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Virtual Bootstraps</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Virtual Bootstraps</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(strapgod)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">iris &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(iris)</a></code></pre></div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The goal of strapgod is to make it easy to create <em>virtual groups</em> on top of tibbles for use with resampling. This means that your tibble is grouped, but you don’t actually “materialize” the groups until you actually need them. By doing this, some computations involving large amounts of bootstraps or resamples can be made much more efficient.</p>
+</div>
+<div id="creating-resampled-data-frames" class="section level1">
+<h1>Creating resampled data frames</h1>
+<p>There are two core functions that help you generate a <code>resampled_df</code> object.</p>
+<p><code>bootstrapify()</code> takes a data frame and bootstraps the rows of that data frame a set number of <code>times</code> to generate the virtual groups.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">iris_boot &lt;-<span class="st"> </span><span class="kw">bootstrapify</span>(iris, <span class="dt">times =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">nrow</span>(iris)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; [1] 150</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">nrow</span>(iris_boot)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; [1] 150</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">iris_boot</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; # Groups:   .bootstrap [10]</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  </span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;  1          5.1         3.5          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  2          4.9         3            1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  3          4.7         3.2          1.3         0.2 setosa </span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;  4          4.6         3.1          1.5         0.2 setosa </span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;  5          5           3.6          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;  6          5.4         3.9          1.7         0.4 setosa </span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt;  7          4.6         3.4          1.4         0.3 setosa </span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;  8          5           3.4          1.5         0.2 setosa </span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;  9          4.4         2.9          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 10          4.9         3.1          1.5         0.1 setosa </span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; # … with 140 more rows</span></a></code></pre></div>
+<p>What you’ll immediately notice is that:</p>
+<ul>
+<li><p>The tibble still only has 150 rows.</p></li>
+<li><p>The tibble is now grouped by <code>.bootstrap</code>, which isn’t a column in the tibble.</p></li>
+</ul>
+<p>The invisible <code>.bootstrap</code> column is the virtual group. It hasn’t been materialized (there are still only 150 rows, not 150 * 10 rows), but dplyr still seems to know about it.</p>
+<p><code>samplify()</code> is the other function that can generate resampled tibbles. It is a slight generalization of <code>bootstrapify()</code> that also allows you to specify the size of each resample, and if you want to resample with replacement or not.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">iris_samp &lt;-<span class="st"> </span><span class="kw">samplify</span>(iris, <span class="dt">times =</span> <span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">iris_samp</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; # Groups:   .sample [10]</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;  1          5.1         3.5          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;  2          4.9         3            1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;  3          4.7         3.2          1.3         0.2 setosa </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;  4          4.6         3.1          1.5         0.2 setosa </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;  5          5           3.6          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;  6          5.4         3.9          1.7         0.4 setosa </span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;  7          4.6         3.4          1.4         0.3 setosa </span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt;  8          5           3.4          1.5         0.2 setosa </span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;  9          4.4         2.9          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; 10          4.9         3.1          1.5         0.1 setosa </span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; # … with 140 more rows</span></a></code></pre></div>
+<p>This result:</p>
+<ul>
+<li><p>Has 10 resamples</p></li>
+<li><p>Each one is of size 20</p></li>
+<li><p>And the resampling was done without replacement each time</p></li>
+</ul>
+</div>
+<div id="resampled-summaries" class="section level1">
+<h1>Resampled summaries</h1>
+<p>What can you do with these neat resampled data frames? Great question! For one thing, you can <code>summarise()</code> the tibble to compute bootstrapped summaries quickly and efficiently.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># without the bootstrap</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">iris <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="dt">mean_length =</span> <span class="kw">mean</span>(Sepal.Length)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  )</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   mean_length</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 1        5.84</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co"># with the bootstrap</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">iris <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="st">  </span><span class="kw">bootstrapify</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">    <span class="dt">mean_length =</span> <span class="kw">mean</span>(Sepal.Length)</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">  )</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;    .bootstrap mean_length</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;         &lt;int&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;  1          1        5.90</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;  2          2        5.80</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;  3          3        5.80</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt;  4          4        5.80</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt;  5          5        5.81</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt;  6          6        5.84</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt;  7          7        5.79</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt;  8          8        5.86</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt;  9          9        5.86</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; 10         10        5.86</span></a></code></pre></div>
+<p>This makes it easy to compute bootstrapped estimates of individual statistics, along with bootstrapped standard deviations around those estimates.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">iris <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">bootstrapify</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_length =</span> <span class="kw">mean</span>(Sepal.Length)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="dt">bootstrapped_mean =</span> <span class="kw">mean</span>(mean_length),</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">    <span class="dt">bootstrapped_sd   =</span> <span class="kw">sd</span>(mean_length)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;   bootstrapped_mean bootstrapped_sd</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;               &lt;dbl&gt;           &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 1              5.83          0.0592</span></a></code></pre></div>
+<p>If you want, you can take an existing grouped data frame and bootstrapify that as well, allowing you to compute bootstrapped statistics <em>across</em> some other variable.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">iris_group_strap &lt;-<span class="st"> </span>iris <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">bootstrapify</span>(<span class="dv">100</span>) </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">iris_group_strap</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; # A tibble: 150 x 5</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; # Groups:   Species, .bootstrap [300]</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  1          5.1         3.5          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  2          4.9         3            1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  3          4.7         3.2          1.3         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  4          4.6         3.1          1.5         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  5          5           3.6          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;  6          5.4         3.9          1.7         0.4 setosa </span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;  7          4.6         3.4          1.4         0.3 setosa </span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt;  8          5           3.4          1.5         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt;  9          4.4         2.9          1.4         0.2 setosa </span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 10          4.9         3.1          1.5         0.1 setosa </span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; # … with 140 more rows</span></a></code></pre></div>
+<p>Reusing the code from above, we can now compute bootstrapped estimates for the mean <code>Sepal.Length</code> of each <code>Species</code>, along with standard deviations around those estimates.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">iris_group_strap <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_length =</span> <span class="kw">mean</span>(Sepal.Length)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="dt">bootstrapped_mean =</span> <span class="kw">mean</span>(mean_length),</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    <span class="dt">bootstrapped_sd   =</span> <span class="kw">sd</span>(mean_length)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;   Species    bootstrapped_mean bootstrapped_sd</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;   &lt;fct&gt;                  &lt;dbl&gt;           &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 1 setosa                  5.00          0.0514</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 2 versicolor              5.92          0.0685</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 3 virginica               6.59          0.0969</span></a></code></pre></div>
+</div>
+<div id="understanding-virtual-groups" class="section level1">
+<h1>Understanding virtual groups</h1>
+<p>The virtual groups are stored in the <code>group_data()</code> metadata of the <code>resampled_df</code> object. Every grouped data frame has one of these, and they are used internally to power the dplyr <code>group_by()</code> system.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">group_data</span>(iris_boot)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    .bootstrap .rows      </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;         &lt;int&gt; &lt;list&gt;     </span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  1          1 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;  2          2 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  3          3 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  4          4 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  5          5 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  6          6 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  7          7 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  8          8 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  9          9 &lt;int [150]&gt;</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 10         10 &lt;int [150]&gt;</span></a></code></pre></div>
+<p>The <code>.bootstrap</code> column contains the unique values of the groups, and the <code>.rows</code> column is a list column, where each element is an integer vector. That integer vector holds the rows that belong to that specific group. So, for <code>.bootstrap == 1</code>, there is a vector with 150 integers identifying the rows belonging to that resample.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">group_data</span>(iris_boot)<span class="op">$</span>.rows[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt;   [1]  44 119  62 133 142   7  80 134  83  69 144  69 102  86  16 135  37</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;  [18]   7  50 144 134 104  97 150  99 107  82  90  44  23 145 136 104 120</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;  [35]   4  72 114  33  48  35  22  63  63  56  23  21  35  70  40 129   7</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;  [52]  67 120  19  85  31  20 113 135  57 100  15  58  42 123  68 122 122</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;  [69] 120  66 114  95 107   1  72  34  57  92  53  17  37 101  63 119  16</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  [86]  66 148 134 133  27  20  98  52  99  49  29 118  15  71  77  90  50</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [103]  74 144  73 134 138  92  62  23 141  46  10 143 109  22  83 144  88</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; [120]  61  98  48  47  33  56 148  24  14  22 104  93 134 101 111  79  99</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; [137] 124 118 147  66  47  62   2  28 127  35  36  12  37 110</span></a></code></pre></div>
+<p>When a call to <code>collect()</code> is made, this row index information is used to construct the output. Essentially, we start with the <code>group_data()</code> and utilize the <code>.rows</code> info to replicate the rows of the original data frame for each group, building up the complete resampled data frame. Notice how we now have the <code>150 * 10 = 1500</code> rows from the 10 bootstraps.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">collect</span>(iris_boot)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1,500 x 6</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; # Groups:   .bootstrap [10]</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;    .bootstrap Sepal.Length Sepal.Width Petal.Length Petal.Width Species   </span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;         &lt;int&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;     </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;  1          1          5           3.5          1.6         0.6 setosa    </span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;  2          1          7.7         2.6          6.9         2.3 virginica </span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;  3          1          5.9         3            4.2         1.5 versicolor</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;  4          1          6.4         2.8          5.6         2.2 virginica </span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt;  5          1          6.9         3.1          5.1         2.3 virginica </span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt;  6          1          4.6         3.4          1.4         0.3 setosa    </span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;  7          1          5.7         2.6          3.5         1   versicolor</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  8          1          6.3         2.8          5.1         1.5 virginica </span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;  9          1          5.8         2.7          3.9         1.2 versicolor</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 10          1          6.2         2.2          4.5         1.5 versicolor</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; # … with 1,490 more rows</span></a></code></pre></div>
+<p>To learn more about <code>collect()</code>, and the other supported dplyr functions in strapgod, read the <code>vignette(&quot;dplyr-support&quot;, &quot;strapgod&quot;)</code>.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
