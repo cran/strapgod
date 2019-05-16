@@ -445,7 +445,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="do" class="section level1">
 <h1>do()</h1>
-<p>While <code>dplyr::do()</code> is basically deprecated and has been replaced by <code>group_map()</code>, it still has its uses sometimes. Like <code>summarise()</code>, <code>do()</code> materializes the groups only when they are required. Here we run the same linear model on each bootstrapped set of data.</p>
+<p>While <code>dplyr::do()</code> is basically deprecated and has been replaced by <code>group_modify()</code>, it still has its uses sometimes. Like <code>summarise()</code>, <code>do()</code> materializes the groups only when they are required. Here we run the same linear model on each bootstrapped set of data.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">do</span>(x, <span class="dt">model =</span> <span class="kw">lm</span>(Sepal.Length <span class="op">~</span><span class="st"> </span>Sepal.Width, <span class="dt">data =</span> .))</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Source: local data frame [10 x 2]</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Groups: &lt;by row&gt;</span></a>
@@ -599,11 +599,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb11-47" data-line-number="47"><span class="co">#&gt; 10          6.1         2.8          4.7         1.2 versicolor</span></a>
 <a class="sourceLine" id="cb11-48" data-line-number="48"><span class="co">#&gt; # … with 140 more rows</span></a></code></pre></div>
 </div>
-<div id="group_map" class="section level1">
-<h1>group_map()</h1>
-<p><code>group_map()</code> is similar to <code>do()</code>, but (as of dplyr 0.8.0.1) always returns a data frame and gives you access to the non-group and group data separately.</p>
+<div id="group_modify" class="section level1">
+<h1>group_modify()</h1>
+<p><code>group_modify()</code> is similar to <code>do()</code>, but (as of dplyr 0.8.0.1) always returns a data frame and gives you access to the non-group and group data separately.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Just show the first 2 rows of each bootstrap</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">group_map</span>(x, <span class="op">~</span><span class="kw">head</span>(.x, <span class="dt">n =</span> <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">group_modify</span>(x, <span class="op">~</span><span class="kw">head</span>(.x, <span class="dt">n =</span> <span class="dv">2</span>))</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; # A tibble: 20 x 6</span></a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; # Groups:   .bootstrap [10]</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt;    .bootstrap Sepal.Length Sepal.Width Petal.Length Petal.Width Species   </span></a>
@@ -631,9 +631,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb12-27" data-line-number="27"></a>
 <a class="sourceLine" id="cb12-28" data-line-number="28"><span class="co"># As you iterate though each group, you have access to that</span></a>
 <a class="sourceLine" id="cb12-29" data-line-number="29"><span class="co"># group's metadata through `.y` if you need it.</span></a>
-<a class="sourceLine" id="cb12-30" data-line-number="30">group_map_group_data &lt;-<span class="st"> </span><span class="kw">group_map</span>(x, <span class="op">~</span><span class="kw">tibble</span>(<span class="dt">.g =</span> <span class="kw">list</span>(.y)))</a>
+<a class="sourceLine" id="cb12-30" data-line-number="30">group_modify_group_data &lt;-<span class="st"> </span><span class="kw">group_modify</span>(x, <span class="op">~</span><span class="kw">tibble</span>(<span class="dt">.g =</span> <span class="kw">list</span>(.y)))</a>
 <a class="sourceLine" id="cb12-31" data-line-number="31"></a>
-<a class="sourceLine" id="cb12-32" data-line-number="32">group_map_group_data</a>
+<a class="sourceLine" id="cb12-32" data-line-number="32">group_modify_group_data</a>
 <a class="sourceLine" id="cb12-33" data-line-number="33"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
 <a class="sourceLine" id="cb12-34" data-line-number="34"><span class="co">#&gt; # Groups:   .bootstrap [10]</span></a>
 <a class="sourceLine" id="cb12-35" data-line-number="35"><span class="co">#&gt;    .bootstrap .g              </span></a>
@@ -649,25 +649,30 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb12-45" data-line-number="45"><span class="co">#&gt;  9          9 &lt;tibble [1 × 1]&gt;</span></a>
 <a class="sourceLine" id="cb12-46" data-line-number="46"><span class="co">#&gt; 10         10 &lt;tibble [1 × 1]&gt;</span></a>
 <a class="sourceLine" id="cb12-47" data-line-number="47"></a>
-<a class="sourceLine" id="cb12-48" data-line-number="48">group_map_group_data<span class="op">$</span>.g[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb12-48" data-line-number="48">group_modify_group_data<span class="op">$</span>.g[[<span class="dv">1</span>]]</a>
 <a class="sourceLine" id="cb12-49" data-line-number="49"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
 <a class="sourceLine" id="cb12-50" data-line-number="50"><span class="co">#&gt;   .bootstrap</span></a>
 <a class="sourceLine" id="cb12-51" data-line-number="51"><span class="co">#&gt;        &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb12-52" data-line-number="52"><span class="co">#&gt; 1          1</span></a></code></pre></div>
 <p>Like <code>do()</code>, it can be a convenient way to run multiple models as long as you return a data frame from each one.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">iris <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw">group_map</span>(<span class="op">~</span><span class="st"> </span>broom<span class="op">::</span><span class="kw">tidy</span>(<span class="kw">lm</span>(Petal.Length <span class="op">~</span><span class="st"> </span>Sepal.Length, <span class="dt">data =</span> .x)))</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; # Groups:   Species [3]</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;   Species    term         estimate std.error statistic  p.value</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;   &lt;fct&gt;      &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; 1 setosa     (Intercept)     0.803    0.344      2.34  2.38e- 2</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; 2 setosa     Sepal.Length    0.132    0.0685     1.92  6.07e- 2</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; 3 versicolor (Intercept)     0.185    0.514      0.360 7.20e- 1</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; 4 versicolor Sepal.Length    0.686    0.0863     7.95  2.59e-10</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt; 5 virginica  (Intercept)     0.610    0.417      1.46  1.50e- 1</span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; 6 virginica  Sepal.Length    0.750    0.0630    11.9   6.30e-16</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">x <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(Species, <span class="dt">add =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw">group_modify</span>(<span class="op">~</span><span class="st"> </span>broom<span class="op">::</span><span class="kw">tidy</span>(<span class="kw">lm</span>(Petal.Length <span class="op">~</span><span class="st"> </span>Sepal.Length, <span class="dt">data =</span> .x)))</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; # A tibble: 60 x 7</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; # Groups:   .bootstrap, Species [30]</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;    .bootstrap Species    term         estimate std.error statistic  p.value</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;         &lt;int&gt; &lt;fct&gt;      &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;  1          1 setosa     (Intercept)    0.904     0.327      2.77  7.93e- 3</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  2          1 setosa     Sepal.Length   0.103     0.0645     1.60  1.15e- 1</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;  3          1 versicolor (Intercept)   -0.345     0.590     -0.584 5.62e- 1</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;  4          1 versicolor Sepal.Length   0.766     0.0995     7.70  7.08e-10</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;  5          1 virginica  (Intercept)    0.409     0.424      0.965 3.39e- 1</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt;  6          1 virginica  Sepal.Length   0.790     0.0657    12.0   4.16e-16</span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt;  7          2 setosa     (Intercept)    1.14      0.345      3.31  1.81e- 3</span></a>
+<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt;  8          2 setosa     Sepal.Length   0.0635    0.0680     0.933 3.56e- 1</span></a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt;  9          2 versicolor (Intercept)    0.509     0.434      1.17  2.46e- 1</span></a>
+<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; 10          2 versicolor Sepal.Length   0.630     0.0735     8.58  1.16e-11</span></a>
+<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="co">#&gt; # … with 50 more rows</span></a></code></pre></div>
 </div>
 <div id="ungroup" class="section level1">
 <h1>ungroup()</h1>

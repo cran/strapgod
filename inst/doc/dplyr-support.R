@@ -60,20 +60,20 @@ group_split(x, keep = FALSE) %>% head(n = 3)
 
 ## ------------------------------------------------------------------------
 # Just show the first 2 rows of each bootstrap
-group_map(x, ~head(.x, n = 2))
+group_modify(x, ~head(.x, n = 2))
 
 # As you iterate though each group, you have access to that
 # group's metadata through `.y` if you need it.
-group_map_group_data <- group_map(x, ~tibble(.g = list(.y)))
+group_modify_group_data <- group_modify(x, ~tibble(.g = list(.y)))
 
-group_map_group_data
+group_modify_group_data
 
-group_map_group_data$.g[[1]]
+group_modify_group_data$.g[[1]]
 
 ## ------------------------------------------------------------------------
-iris %>%
-  group_by(Species) %>%
-  group_map(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
+x %>%
+  group_by(Species, add = TRUE) %>%
+  group_modify(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
 
 ## ------------------------------------------------------------------------
 ungroup(x)
