@@ -1,6 +1,6 @@
 Package: strapgod
 Title: Resampled Data Frames
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person(given = "Davis",
            family = "Vaughan",
@@ -15,14 +15,14 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Depends: R (>= 3.2.0)
-Imports: dplyr (>= 0.8.1), tidyr, rlang, tibble
+Imports: dplyr (>= 0.8.3), tidyr, rlang, tibble
 Suggests: broom, testthat, covr, knitr, rmarkdown
 URL: https://github.com/DavisVaughan/strapgod
 BugReports: https://github.com/DavisVaughan/strapgod/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-05-16 13:49:17 UTC; davis
+Packaged: 2019-07-16 20:45:52 UTC; davis
 Author: Davis Vaughan [aut, cre]
 Maintainer: Davis Vaughan <davis@rstudio.com>
 Repository: CRAN
-Date/Publication: 2019-05-16 15:30:04 UTC
+Date/Publication: 2019-07-18 06:36:28 UTC

@@ -1,6 +1,6 @@
-c4e5e9da39554747828fe6a910c1462b *DESCRIPTION
+855ae7036a5f2ce634abccedba881e7e *DESCRIPTION
 aa26c9e6609b1f596c90a084b0f7ebbd *NAMESPACE
-2fad8b74d809f355dd2ed1844f064c8c *NEWS.md
+54a36fe006b6043b81f26f7233515795 *NEWS.md
 070420eecdbb9020632caaf20d6e46fd *R/bootstrapify.R
 835fed25894f3f3b9ac486c068db89f7 *R/collect.R
 ee622f84230bccee2343a6455b97f2cf *R/compat-dplyr.R
@@ -10,13 +10,13 @@ fa258cb6e51b71f3da5e5fe1fa7a0c4e *R/compat-tidyr.R
 81a92fdcd6712d3e057b52e412a061c2 *R/util.R
 f6bbb13c49002586828401b6d760f428 *R/zzz.R
 fa88350ae52ae193498c0007649a0b38 *README.md
-75c1c4187cadb1c90fee4f708d4d29e9 *build/vignette.rds
+4013ccc7f49c0a334d87067213b2c822 *build/vignette.rds
 3dd049c283baf84a56d98b12101ce0d4 *inst/doc/dplyr-support.R
 67103137f89fcd5d969a3cf30c7a7037 *inst/doc/dplyr-support.Rmd
-68b5db58ba29149b624a8ceaf672806f *inst/doc/dplyr-support.html
+13661d2e0b78ec3b2c6c574e95b90241 *inst/doc/dplyr-support.html
 05a39c3f2b90e46c52d6e1be8edffa31 *inst/doc/virtual-bootstraps.R
 a0c6cb4cc3692241cad6d86ce400a80e *inst/doc/virtual-bootstraps.Rmd
-0eaa13d2cb5bd224b01b9958f6da3c27 *inst/doc/virtual-bootstraps.html
+6ace9747613fd077e682e1a8efa1850b *inst/doc/virtual-bootstraps.html
 5662eb21383ea6c5b170f000630bd989 *man/bootstrapify.Rd
 f0184e2764863803982a14322fddf5af *man/collect.resampled_df.Rd
 fa5cc7a2511ad65a71ce788e4fb48412 *man/figures/README-bootstrap-plots-1.png
@@ -30,7 +30,7 @@ e4296e386760d9958312751adee979da *tests/testthat/test-collect.R
 12aa32886b2203a8ba742f3c99c23146 *tests/testthat/test-compat-tidyr.R
 3a19436774f67cfc3646466e8af4176e *tests/testthat/test-dplyr-compat.R
 5163688ac3185a37ff62e446cccdd121 *tests/testthat/test-dplyr-do.R
-255913256af0d46a5b6c1a892427ba40 *tests/testthat/test-dplyr-group-funs.R
+158af2a9dd080bf0b7704da1130f255d *tests/testthat/test-dplyr-group-funs.R
 156dcb511a1e7318ca3d64c76ce9df7e *tests/testthat/test-dplyr-summarise.R
 85900c469a6bd6b00cba0c5ea4cc416f *tests/testthat/test-samplify.R
 67103137f89fcd5d969a3cf30c7a7037 *vignettes/dplyr-support.Rmd

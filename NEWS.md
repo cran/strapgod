@@ -1,3 +1,11 @@
+# strapgod 0.0.3
+
+* In dplyr 0.8.2, the `ptype` is carried along as an attribute 
+in `group_split()`. A test was updated to reflect this.
+
+* In dplyr 0.8.2, the behavior of `tbl_vars()` was changed to return a classed
+object. A test has been updated to reflect this (#13).
+
 # strapgod 0.0.2
 
 * In dplyr 0.8.1, the behavior of `group_map()` was moved to `group_modify()`,

@@ -61,7 +61,9 @@ test_that("group_map()", {
   x <- iris %>%
     bootstrapify(5)
 
-  expect_equal(
+  # Don't check attributes, as group_split()
+  # also adds the ptype as an attribute as of dplyr 0.8.2
+  expect_equivalent(
     group_map(x, ~.x),
     group_split(x, keep = FALSE)
   )
@@ -193,7 +195,7 @@ test_that("group_vars() returns virtual groups", {
   # I think it is correct to expect that tbl_vars()
   # doesn't return the virtual group
   expect_equal(
-    tbl_vars(x),
+    as.character(tbl_vars(x)),
     colnames(iris)
   )
 
